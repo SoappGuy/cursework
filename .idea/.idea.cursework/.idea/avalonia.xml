@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="cursework/App.axaml" value="cursework/cursework.csproj" />
+        <entry key="cursework/Views/CollectionView.axaml" value="cursework/cursework.csproj" />
+        <entry key="cursework/Views/FilmView.axaml" value="cursework/cursework.csproj" />
+        <entry key="cursework/Views/HomeView.axaml" value="cursework/cursework.csproj" />
+        <entry key="cursework/Views/LibraryView.axaml" value="cursework/cursework.csproj" />
+        <entry key="cursework/Views/MainWindow.axaml" value="cursework/cursework.csproj" />
+        <entry key="cursework/Views/Resources1.axaml" value="cursework/cursework.csproj" />
+        <entry key="cursework/Views/TemplatedControl1.axaml" value="cursework/cursework.csproj" />
+        <entry key="cursework/Views/UserControl1.axaml" value="cursework/cursework.csproj" />
+        <entry key="cursework/Views/Window1.axaml" value="cursework/cursework.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

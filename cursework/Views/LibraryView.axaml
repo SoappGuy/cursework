@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:cursework.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="cursework.Views.LibraryView"
+             x:DataType="vm:LibraryViewModel">
+    <StackPanel Name="Main">
+        
+        <Grid Name="Search"></Grid>
+
+        <Grid Name="ItemsBrowser">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2.5*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <DataGrid 
+                Name="ItemsGrid"
+                Grid.Row="0"
+                Grid.Column="0"
+                ItemsSource="{Binding CurrView}"
+                AutoGenerateColumns="False"
+                FontSize="24"
+                SelectionChanged="ItemsGrid_OnSelectionChanged"
+            >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
+                    <DataGridTextColumn Header="Description" Width="3.5*" Binding="{Binding Description}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            
+            <StackPanel Name="QuickOverview" Grid.Row="0" Grid.Column="1">
+                
+            </StackPanel>
+            
+        </Grid>
+        
+    </StackPanel>
+</UserControl>
