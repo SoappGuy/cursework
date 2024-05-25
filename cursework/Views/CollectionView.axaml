@@ -2,7 +2,86 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:cursework.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="cursework.Views.CollectionView">
-    Welcome to Avalonia!
+             x:Class="cursework.Views.CollectionView"
+             x:DataType="vm:CollectionsViewModel">
+    <Canvas
+        Width="1200"
+        Height="600">
+        <Button 
+            Classes="AddButton"
+            Canvas.Bottom="25" Canvas.Right="25"
+            Click="Create_OnClick"
+        >
+            <Image Source="/Assets/plus.png"/>
+        </Button>
+        
+        <StackPanel Name="Main"
+                    Width="1200"
+                    Height="600">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <!-- <MenuItem Header="Open" /> -->
+                <MenuItem Header="Save" Click="SaveButton_OnClick" />
+            </MenuItem>
+        </Menu>
+        
+            <Grid Classes="FilterGrid" Name="Search" Margin="0 0 0 20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                </Grid.ColumnDefinitions>
+            
+                <TextBlock Classes="Header" Text="Collections:" />
+                <TextBox Name="Universal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Watermark="Write filter here" />
+                <TextBlock Classes="FiltersTextBlock" Name="Filters" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding FiltersString}" />
+            
+                <StackPanel Classes="FilterButtonsPanel" Grid.Row="1" Grid.RowSpan="2" Grid.Column="2">
+                    <Button Content="Add" Click="ApplyFilter_OnClick" />
+                    <Button Content="Clear" Click="ClearFilter_OnClick" />
+                </StackPanel>
+            
+                <StackPanel Name="SelectedButtons" IsVisible="False" Classes="FilterButtonsPanel" Grid.Row="1" Grid.RowSpan="2" Grid.Column="3">
+                    <Button Content="Open" Click="Open_OnClick" />
+                    <Button Content="Delete" Click="Delete_OnClick" />
+                </StackPanel>
+            </Grid>
+
+        <Grid Name="ItemsBrowser">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" MinHeight="9999"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <DataGrid 
+                Name="ItemsGrid"
+                Grid.Row="0"
+                Grid.Column="0"
+                ItemsSource="{Binding CurrView}"
+                AutoGenerateColumns="False"
+                FontSize="24"
+                SelectionChanged="ItemsGrid_OnSelectionChanged"
+                VerticalScrollBarVisibility="Auto"
+            >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
+                    <DataGridTextColumn Header="Rate" Width="100" Binding="{Binding Rating.Rate}"/>
+                    <DataGridTextColumn Header="Description" Width="3.5*" Binding="{Binding Description}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        
+    </StackPanel>
+    </Canvas>
+    
 </UserControl>

@@ -12,16 +12,17 @@ public class Collection
 {
     public string? Title { get; set; }
     public string? Description { get; set; }
-    public HashSet<Film> Films { get; set; } = new();
+    public List<Film> Films { get; set; } = new();
 
-    public Result Add(Film film)
+    public void Add(Film film)
     {
-        if (this.Films.Add(film))
-        {
-            return Result.Success();
-        }
-
-        return Result.Failure($"Can't add Film \"{film}\" twice.");
+        this.Films.Add(film);
+        // if (this.Films.Add(film))
+        // {
+        //     return Result.Success();
+        // }
+        //
+        // return Result.Failure($"Can't add Film \"{film}\" twice.");
     }
     public Result Remove(string title)
     {
@@ -35,7 +36,36 @@ public class Collection
         return Result.Failure($"Can't find Film with title \"{title}\".");
     }
 
-    public HashSet<Film> Filtered(string searchTerm)
+    public List<Film> Filtered(List<string> searchTerms)
+    {
+        var filtered = this.Films;
+
+        foreach (var term in searchTerms)
+        {
+            filtered = filtered.Where(film =>
+            {
+                if (term == "") return true;
+                
+                foreach (var prop in typeof(Film).GetProperties())
+                {
+                    string[] words = (prop.GetValue(film)?.ToString() ?? "").Split(" ");
+
+                    foreach (var word in words)
+                    {
+                        if (word.Contains(term, StringComparison.Ordinal))
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+            }).ToList();
+        }
+
+        return filtered;
+    }
+    public List<Film> Filtered(string searchTerm)
     {
         return this.Films.Where(film =>
         {
@@ -48,7 +78,7 @@ public class Collection
             }
 
             return false;
-        }).ToHashSet();
+        }).ToList();
         
         // return this.Films.Where(film =>
         //     (film.Title?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||

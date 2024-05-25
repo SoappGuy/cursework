@@ -19,5 +19,7 @@ public enum Genre
     Thriller,
     War,
     Western,
-    Biography
+    Biography,
+    Family,
+    Superhero
 }

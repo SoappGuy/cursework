@@ -130,3 +130,4 @@
 /home/dumbnerd/stuff/projects/cursework/cursework/obj/Debug/net8.0/cursework.genruntimeconfig.cache
 /home/dumbnerd/stuff/projects/cursework/cursework/obj/Debug/net8.0/ref/cursework.dll
 /home/dumbnerd/stuff/projects/cursework/cursework/obj/Debug/net8.0/cursework.sourcelink.json
+/home/dumbnerd/stuff/projects/cursework/cursework/bin/Debug/net8.0/FuzzySharp.dll

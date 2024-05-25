@@ -9,8 +9,11 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="cursework"
         Background="#0E0F10"
-        Foreground="#CECAC4">
-
+        Foreground="#CECAC4"
+        CanResize="False"
+        WindowState="Normal"
+        Width="1200"
+        Height="600">
     
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
@@ -18,7 +21,9 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
     
-    <DockPanel>
+    <DockPanel
+        Width="1200"
+        Height="600">
         <ContentControl x:Name="MainContent" DockPanel.Dock="Bottom"/>
     </DockPanel>
     

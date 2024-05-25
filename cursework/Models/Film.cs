@@ -6,17 +6,17 @@ namespace cursework.Models;
 
 public class Film
 {
-    public string? Title { get; set; }
-    public string? Description { get; set; }
-    public string? Studio { get; set; }
-    public DateTime? ReleaseDate { get; set; }
-    public string? Director { get; set; }
-    public HashSet<string>? Actors { get; set; }
-    public HashSet<Genre>? Genres { get; set; }
-    public Rating? Rating { get; set; }
-    public string? FilePath { get; set; }
-    public string? FileSize { get; set; }
-    public string? Length { get; set; }
+    public string Title { get; set; } = "";
+    public string Description { get; set; } = "";
+    public string Studio { get; set; } = "";
+    public DateTime ReleaseDate { get; set; }
+    public string Director { get; set; } = "";
+    public List<string>? Actors { get; set; }
+    public List<Genre>? Genres { get; set; }
+    public Rating Rating { get; set; } = new Rating(0);
+    public string FilePath { get; set; } = "";
+    public string FileSize { get; set; } = "";
+    public string Length { get; set; } = "";
 
     public override string? ToString()
     {
@@ -39,12 +39,12 @@ public class Film
         bool path        = this.FilePath == film.FilePath;
         bool size = this.FileSize == film.FileSize;
         bool lenght = this.Length == film.Length;
-        bool actors = film.Actors != null
-                ? this.Actors.SetEquals(film.Actors)
+        bool actors = film.Actors != null && this.Actors != null
+                ? this.Actors.Equals(film.Actors)
                 : this.Actors == film.Actors
             ;
         bool geners = this.Genres != null && film.Genres != null
-            ? this.Genres.SetEquals(film.Genres)
+            ? this.Genres.Equals(film.Genres)
             : this.Genres == film.Genres;
 
         List<bool> list = [title, description, studio, release, director, rating, path, size, lenght, actors, geners];

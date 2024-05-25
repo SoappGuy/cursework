@@ -5,17 +5,31 @@
              xmlns:vm="using:cursework.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="cursework.Views.LibraryView"
-             x:DataType="vm:LibraryViewModel">
+             x:DataType="vm:LibraryViewModel"
+             >
     
-    <StackPanel Name="Main">
+    <Canvas
+        Width="1200"
+        Height="600">
+        <Button 
+            Classes="AddButton"
+            Canvas.Bottom="25" Canvas.Right="25"
+            Click="Create_OnClick"
+        >
+            <Image Source="/Assets/plus.png"/>
+        </Button>
+        
+        <StackPanel Name="Main"
+                    Width="1200"
+                    Height="600">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <MenuItem Header="Open" />
+                <!-- <MenuItem Header="Open" /> -->
                 <MenuItem Header="Save" Click="SaveButton_OnClick" />
             </MenuItem>
         </Menu>
         
-        <Grid Classes="FilterGrid" Name="Search">
+        <Grid Classes="FilterGrid" Name="Search" Margin="0 0 0 20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="*"/>
@@ -23,18 +37,23 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
             
-            <TextBlock Classes="Header" Text="Filters:" />
-            <TextBox Name="Universal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Watermark="Universal" />
-            <TextBox Name="Title" Grid.Row="2" Grid.Column="0" Watermark="Title" />
-            <TextBox Name="Description" Grid.Row="2" Grid.Column="1" Watermark="Description" />
+            <TextBlock Classes="Header" Text="Collections:" />
+            <TextBox Name="Universal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Watermark="Write filter here" />
+            <TextBlock Classes="FiltersTextBlock" Name="Filters" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding FiltersString}" />
             
             <StackPanel Classes="FilterButtonsPanel" Grid.Row="1" Grid.RowSpan="2" Grid.Column="2">
-                <Button Content="Apply" Click="ApplyFilter_OnClick" />
+                <Button Content="Add" Click="ApplyFilter_OnClick" />
                 <Button Content="Clear" Click="ClearFilter_OnClick" />
+            </StackPanel>
+            
+            <StackPanel Name="SelectedButtons" IsVisible="False" Classes="FilterButtonsPanel" Grid.Row="1" Grid.RowSpan="2" Grid.Column="3">
+                <Button Content="Open" Click="Open_OnClick" />
+                <Button Content="Delete" Click="Delete_OnClick" />
             </StackPanel>
         </Grid>
 
@@ -64,4 +83,6 @@
         </Grid>
         
     </StackPanel>
+    </Canvas>
+    
 </UserControl>

@@ -8,10 +8,12 @@ public partial class MainWindow : Window
     public LibraryView CurrLibView = null;
     public CollectionView CurrCollectionView = null;
     public FilmView CurrFilmView = null;
+    public HomeView CurrHomeView = null;
     
     public MainWindow()
     {
         InitializeComponent();
-        MainContent.Content = new HomeView();
+        this.CurrHomeView = new HomeView();
+        MainContent.Content = this.CurrHomeView;
     }
 }

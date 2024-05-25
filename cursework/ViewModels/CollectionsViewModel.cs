@@ -1,14 +1,18 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using cursework.Models;
 
 namespace cursework.ViewModels;
 
-public class LibraryViewModel : ViewModelBase
+public class CollectionsViewModel
 {
     public static List<string> Filters = [""];
-
+    public static List<Film> CurrView
+    {
+        get
+        {
+            return App.MainWindow.CurrCollectionView.CurrCollection?.Filtered(Filters);
+        }
+    }
     public static string FiltersString
     {
         get
@@ -22,11 +26,6 @@ public class LibraryViewModel : ViewModelBase
             return string.Join(", ", result);
         }
     }
-    public static List<Collection> CurrView
-    {
-        get
-        {
-            return App.MainWindow.CurrLibView.CurrLib?.Filtered(Filters);
-        }
-    }
+
+    public static string CurrTitle => (App.MainWindow.CurrCollectionView.CurrCollection?.Title ?? "Films") + ":";
 }

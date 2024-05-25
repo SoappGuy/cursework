@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using FuzzySharp;
 
 namespace cursework.Models;
 
@@ -15,18 +16,25 @@ public class Library
     
     public List<Collection> Filtered(Dictionary<PropertyInfo, string> searchPairs)
     {
-        List<Collection> filtered = [];
+        HashSet<Collection> filtered = [];
 
         foreach (var (prop, term) in searchPairs)
         {
-            filtered.AddRange(this.Collections.Where(
-                collection
-                    =>
-                prop.GetValue(collection)?.ToString()?.Contains(term, StringComparison.OrdinalIgnoreCase) ?? false
-            ).ToList());
+            foreach (var collection in this.Collections)
+            {
+                string[] words = (prop.GetValue(collection)?.ToString() ?? "").Split(" ");
+                foreach (var word in words)
+                {
+                    if (word.Contains(term, StringComparison.Ordinal))
+                    {
+                        filtered.Add(collection);
+                        break;
+                    }
+                }
+            }
         }
 
-        return filtered;
+        return filtered.ToList();
     }
     public List<Collection> Filtered(List<string> searchTerms)
     {
@@ -36,11 +44,18 @@ public class Library
         {
             filtered = filtered.Where(collection =>
             {
+                if (term == "") return true;
+                
                 foreach (var prop in typeof(Collection).GetProperties())
                 {
-                    if (prop.GetValue(collection)?.ToString()?.Contains(term, StringComparison.OrdinalIgnoreCase) ?? false)
+                    string[] words = (prop.GetValue(collection)?.ToString() ?? "").Split(" ");
+
+                    foreach (var word in words)
                     {
-                        return true;
+                        if (word.Contains(term, StringComparison.Ordinal))
+                        {
+                            return true;
+                        }
                     }
                 }
 
