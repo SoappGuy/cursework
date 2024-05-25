@@ -6,16 +6,43 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="cursework.Views.LibraryView"
              x:DataType="vm:LibraryViewModel">
+    
     <StackPanel Name="Main">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="Open" />
+                <MenuItem Header="Save" Click="SaveButton_OnClick" />
+            </MenuItem>
+        </Menu>
         
-        <Grid Name="Search"></Grid>
-
-        <Grid Name="ItemsBrowser">
+        <Grid Classes="FilterGrid" Name="Search">
             <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2.5*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Classes="Header" Text="Filters:" />
+            <TextBox Name="Universal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Watermark="Universal" />
+            <TextBox Name="Title" Grid.Row="2" Grid.Column="0" Watermark="Title" />
+            <TextBox Name="Description" Grid.Row="2" Grid.Column="1" Watermark="Description" />
+            
+            <StackPanel Classes="FilterButtonsPanel" Grid.Row="1" Grid.RowSpan="2" Grid.Column="2">
+                <Button Content="Apply" Click="ApplyFilter_OnClick" />
+                <Button Content="Clear" Click="ClearFilter_OnClick" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Name="ItemsBrowser">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" MinHeight="9999"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             
@@ -27,17 +54,13 @@
                 AutoGenerateColumns="False"
                 FontSize="24"
                 SelectionChanged="ItemsGrid_OnSelectionChanged"
+                VerticalScrollBarVisibility="Auto"
             >
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
                     <DataGridTextColumn Header="Description" Width="3.5*" Binding="{Binding Description}"/>
                 </DataGrid.Columns>
             </DataGrid>
-            
-            <StackPanel Name="QuickOverview" Grid.Row="0" Grid.Column="1">
-                
-            </StackPanel>
-            
         </Grid>
         
     </StackPanel>

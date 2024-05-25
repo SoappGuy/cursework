@@ -35,22 +35,34 @@ public class Collection
         return Result.Failure($"Can't find Film with title \"{title}\".");
     }
 
-    public HashSet<Film> Search(string searchTerm)
+    public HashSet<Film> Filtered(string searchTerm)
     {
-        
         return this.Films.Where(film =>
-            (film.Title?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
-            (film.Description?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
-            (film.Studio?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
-            (film.ReleaseDate?.ToString().Contains(searchTerm) ?? false) ||
-            (film.Director?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
-            (film.Actors?.Any(actor => actor.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) ?? false) ||
-            (film.Genres?.Any(genre => genre.ToString().Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) ?? false) ||
-            (film.Rating?.Rate.ToString().Contains(searchTerm) ?? false) ||
-            (film.FilePath?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
-            (film.FileSize?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
-            (film.Length?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false)
-        ).ToHashSet();
+        {
+            foreach (var prop in typeof(Film).GetProperties())
+            {
+                if (prop.GetValue(film)?.ToString()?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }).ToHashSet();
+        
+        // return this.Films.Where(film =>
+        //     (film.Title?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
+        //     (film.Description?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
+        //     (film.Studio?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
+        //     (film.ReleaseDate?.ToString().Contains(searchTerm) ?? false) ||
+        //     (film.Director?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
+        //     (film.Actors?.Any(actor => actor.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) ?? false) ||
+        //     (film.Genres?.Any(genre => genre.ToString().Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) ?? false) ||
+        //     (film.Rating?.Rate.ToString().Contains(searchTerm) ?? false) ||
+        //     (film.FilePath?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
+        //     (film.FileSize?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
+        //     (film.Length?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false)
+        // ).ToHashSet();
     }
     
     public static Result Serialize(Collection collection, string path, string name)
