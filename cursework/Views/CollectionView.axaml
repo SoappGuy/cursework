@@ -8,80 +8,177 @@
              x:DataType="vm:CollectionsViewModel">
     <Canvas
         Width="1200"
-        Height="600">
+        Height="650"
+    >
         <Button 
             Classes="AddButton"
             Canvas.Bottom="25" Canvas.Right="25"
             Click="Create_OnClick"
         >
-            <Image Source="/Assets/plus.png"/>
+                <Image Source="/Assets/plus.png"/>
         </Button>
         
-        <StackPanel Name="Main"
-                    Width="1200"
-                    Height="600">
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="File">
-                <!-- <MenuItem Header="Open" /> -->
-                <MenuItem Header="Save" Click="SaveButton_OnClick" />
-            </MenuItem>
-        </Menu>
+        <StackPanel
+            Canvas.Left="0"
+            Canvas.Top="0"
+            Name="Main"
+            Width="1200"
+            Height="650"
+        >
         
-            <Grid Classes="FilterGrid" Name="Search" Margin="0 0 0 20">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="File">
+                    <MenuItem Header="Save as" Click="SaveButton_OnClick" />
+                </MenuItem>
+            </Menu>
+        
+            <Grid
+                Classes="FilterGrid" Name="Search" 
+                Margin="0 0 0 20" 
+                Height="20"
+                ColumnDefinitions="*,*,*"
+                RowDefinitions="50,50,50,50"
+            >
+                <WrapPanel
+                    Margin="15 0 0 0"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    
+                >
+                    <ToggleButton
+                        Name="AccurateSearchButton"
+                        IsChecked="False"
+                        Content="󰈲"
+                        Click="AccurateSearchButton_OnClick"
+                    >
+                    </ToggleButton>
+                    <TextBox
+                        Name="UniversalSearch" 
+                        Watermark="Search everywhere"
+                        Classes="FiltersTextBlock"
+                        Width="385"
+                    />
+                    
+                    <WrapPanel 
+                        Name="FiltersButtons"
+                        Classes="FilterButtonsPanel" 
+                    >
+                        <Button Content="Apply" Click="Apply_OnClick" />
+                        <Button Content="Clear" Click="Clear_OnClick" />
+                    </WrapPanel>
+                    
+                    <WrapPanel 
+                        Name="SelectedButtons"
+                        IsVisible="False"
+                        Classes="FilterButtonsPanel" 
+                    >
+                        <Button Content="Open" Click="Open_OnClick" />
+                        <Button Content="Delete" Click="Delete_OnClick" />
+                    </WrapPanel>
+                </WrapPanel>
+            
+                <Grid
+                    HorizontalAlignment="Stretch"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    ColumnDefinitions="*,*,*"
+                    RowDefinitions="50,50,50,50"
+                    Name="AccurateGrid" Classes="AccurateGrid"
+                    IsVisible="False"
+                >
+
+                    <TextBox 
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="0 0 7.5 0"
+                        Name="TitleSearch" Watermark="Title"  Classes="FiltersTextBlock"
+                    />
+                    <NumericUpDown
+                        Increment="0.5" 
+                        FormatString="0.0"
+                        Minimum="0" Maximum="10"
+                        Margin="7.5 0 0 0"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Name="RateSearch" Watermark="Rate"  Classes="FiltersTextBlock"
+                    />
+            
+                    <TextBox 
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Name="DescriptionSearch" Watermark="Description"  Classes="FiltersTextBlock"
+                    />
+            
+                    <TextBox 
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Margin="0 0 7.5 0"
+                        Name="StudioSearch" Watermark="Studio"  Classes="FiltersTextBlock"
+                    />
+                    <TextBox 
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="7.5 0 0 0"
+                        Name="DirectorSearch" Watermark="Director"  Classes="FiltersTextBlock"
+                    />
+            
+                    <DatePicker
+                        DayFormat="dd"
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Name="DateSearchStart"  Classes="FiltersTextBlock"
+                    />
+                    <TextBlock 
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Foreground="#249E4B"
+                        Text="󱞽 Start | End 󱞣"
+                        FontSize="20"
+                        TextAlignment="Center"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                    />
+                    <DatePicker
+                          DayFormat="dd"
+                          Grid.Row="2"
+                          Grid.Column="2"
+                          Name="DateSearchEnd"  Classes="FiltersTextBlock"
+                      />
+                </Grid>
+            
+            </Grid>
+            
+            <Grid Name="ItemsBrowser">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="3*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="400"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="0.5*"/>
-                    <ColumnDefinition Width="0.5*"/>
                 </Grid.ColumnDefinitions>
             
-                <TextBlock Classes="Header" Text="Collections:" />
-                <TextBox Name="Universal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Watermark="Write filter here" />
-                <TextBlock Classes="FiltersTextBlock" Name="Filters" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding FiltersString}" />
-            
-                <StackPanel Classes="FilterButtonsPanel" Grid.Row="1" Grid.RowSpan="2" Grid.Column="2">
-                    <Button Content="Add" Click="ApplyFilter_OnClick" />
-                    <Button Content="Clear" Click="ClearFilter_OnClick" />
-                </StackPanel>
-            
-                <StackPanel Name="SelectedButtons" IsVisible="False" Classes="FilterButtonsPanel" Grid.Row="1" Grid.RowSpan="2" Grid.Column="3">
-                    <Button Content="Open" Click="Open_OnClick" />
-                    <Button Content="Delete" Click="Delete_OnClick" />
-                </StackPanel>
+                <DataGrid 
+                    Name="ItemsGrid"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    ItemsSource="{Binding CurrView}"
+                    AutoGenerateColumns="False"
+                    FontSize="24"
+                    Margin="15 0 15 15"
+                    SelectionChanged="ItemsGrid_OnSelectionChanged"
+                    VerticalScrollBarVisibility="Visible"
+                >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
+                        <DataGridTextColumn Header="Rate" Width="100" Binding="{Binding Rating}"/>
+                        <DataGridTextColumn Header="Description" Width="3.5*" Binding="{Binding Description}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </Grid>
-
-        <Grid Name="ItemsBrowser">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" MinHeight="9999"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            
-            <DataGrid 
-                Name="ItemsGrid"
-                Grid.Row="0"
-                Grid.Column="0"
-                ItemsSource="{Binding CurrView}"
-                AutoGenerateColumns="False"
-                FontSize="24"
-                SelectionChanged="ItemsGrid_OnSelectionChanged"
-                VerticalScrollBarVisibility="Auto"
-            >
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
-                    <DataGridTextColumn Header="Rate" Width="100" Binding="{Binding Rating.Rate}"/>
-                    <DataGridTextColumn Header="Description" Width="3.5*" Binding="{Binding Description}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
-        
-    </StackPanel>
+    
+        </StackPanel>
     </Canvas>
     
 </UserControl>

@@ -14,28 +14,37 @@ public class Library
 {
     public List<Collection> Collections { get; set; } = [];
     
-    public List<Collection> Filtered(Dictionary<PropertyInfo, string> searchPairs)
+    public List<Collection> Filtered(Dictionary<string, object> searchTerms)
     {
-        HashSet<Collection> filtered = [];
-
-        foreach (var (prop, term) in searchPairs)
+        var filtered = this.Collections;
+    
+        foreach (var (prop, value) in searchTerms)
         {
-            foreach (var collection in this.Collections)
+            filtered = filtered.Where(collection =>
             {
-                string[] words = (prop.GetValue(collection)?.ToString() ?? "").Split(" ");
-                foreach (var word in words)
+                switch (prop)
                 {
-                    if (word.Contains(term, StringComparison.Ordinal))
-                    {
-                        filtered.Add(collection);
-                        break;
-                    }
+                    case "Title":
+                        return collection.Title.Contains((string)value, StringComparison.Ordinal);
+                    case "Description":
+                        return collection.Description.Contains((string)value, StringComparison.Ordinal);
+                    default:
+                        var term = (string)value;
+                        foreach (var prop in typeof(Collection).GetProperties())
+                        {
+                            if (prop.GetValue(collection)?.ToString()?.Contains(term, StringComparison.OrdinalIgnoreCase) ?? false)
+                            {
+                                return true;
+                            }
+                        }
+                        return false;
                 }
-            }
+            }).ToList();
         }
-
-        return filtered.ToList();
+        
+        return filtered;
     }
+
     public List<Collection> Filtered(List<string> searchTerms)
     {
         var filtered = this.Collections;

@@ -6,17 +6,24 @@ namespace cursework.Models;
 
 public class Film
 {
-    public string Title { get; set; } = "";
-    public string Description { get; set; } = "";
-    public string Studio { get; set; } = "";
-    public DateTime ReleaseDate { get; set; }
-    public string Director { get; set; } = "";
-    public List<string>? Actors { get; set; }
-    public List<Genre>? Genres { get; set; }
-    public Rating Rating { get; set; } = new Rating(0);
+    public string Title { get; set; } = "";          //
+    public string Description { get; set; } = "";    //
+    public string Studio { get; set; } = "";         //
+    public DateTime ReleaseDate { get; set; }        //
+    public string Director { get; set; } = "";       //
+    public List<string> Actors { get; set; } = [];
+    public List<Genre> Genres { get; set; } = [];
     public string FilePath { get; set; } = "";
     public string FileSize { get; set; } = "";
     public string Length { get; set; } = "";
+    
+    private double _rating = 0;
+    public double Rating                             //
+    {
+        get => _rating;
+        set => _rating = value <= 10 ? value : 10;
+    }
+
 
     public override string? ToString()
     {

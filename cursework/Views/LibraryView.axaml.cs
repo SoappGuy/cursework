@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using cursework.Models;
@@ -23,10 +24,8 @@ public partial class LibraryView : UserControl
         this.CurrLib = new Library();
     }
     
-    
     private void UpdateView()
     {
-        Filters.Text = LibraryViewModel.FiltersString;
         ItemsGrid.ItemsSource = App.MainWindow.CurrLibView.CurrLib?.Filtered(LibraryViewModel.Filters);
     }
     private void ItemsGrid_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
@@ -51,34 +50,9 @@ public partial class LibraryView : UserControl
         this.SelectedCollection = selected;
     }
     
-    private async void SaveButton_OnClick(object? sender, RoutedEventArgs e)
+    private void SaveButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        
-        var dialog = new OpenFileDialog
-        {
-            Title = "Open File",
-            Filters = new List<FileDialogFilter>
-            {
-                new FileDialogFilter { Name = "Library files", Extensions = new List<string> { "library" } },
-            },
-            AllowMultiple = false,
-        };
-
-        var path = await dialog.ShowAsync(App.MainWindow);
-
-        Library.Serialize(this.CurrLib, path[0]);
-    }
-
-    private void ApplyFilter()
-    {
-        List<string> filters = [];
-        
-        if(!string.IsNullOrEmpty(Universal.Text)) filters.Add(Universal.Text);
-        
-        LibraryViewModel.Filters.AddRange(filters);
-        
-        Universal.Text = null;
-        UpdateView();
+        App.MainWindow.SaveAs();
     }
 
     private void GoBack()
@@ -86,40 +60,90 @@ public partial class LibraryView : UserControl
         App.MainWindow.MainContent.Content = App.MainWindow.CurrHomeView;
     }
     
-    private void ApplyFilter_OnClick(object? sender, RoutedEventArgs e)
+    private void Clear_OnClick(object? sender, RoutedEventArgs e)
     {
-        ApplyFilter();
+        Clear();
     }
-    private void ClearFilter_OnClick(object? sender, RoutedEventArgs e)
+    private void Clear()
     {
-        LibraryViewModel.Filters.Clear();
-        LibraryViewModel.Filters.Add("");
+        CollectionsViewModel.Filters = new Dictionary<string, object>() {{"universal", ""}};
         UpdateView();
-
-        Universal.Text = null;
+    
+        UniversalSearch  .Text         = null;
+        TitleSearch      .Text         = null;
+        DescriptionSearch.Text         = null;
+    }
+    
+    private void AccurateSearchButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (sender == null) return;
+        
+        var button = (ToggleButton)sender;
+        if (button.IsChecked ?? false)
+        {
+            AccurateGrid.IsVisible = true;
+            Search.Height = 100;
+        }
+        else
+        {
+            AccurateGrid.IsVisible = false;
+            Search.Height = 20;
+            Clear();
+        }
+    }
+    
+    private void Apply_OnClick(object? sender, RoutedEventArgs e)
+    {
+        Apply();
+    }
+    private void Apply()
+    {
+        Dictionary<string, object> filters = [];
+        
+        if(!string.IsNullOrEmpty(UniversalSearch.Text))   filters.Add("universal",   UniversalSearch.Text);
+        if(!string.IsNullOrEmpty(TitleSearch.Text))       filters.Add("Title",       TitleSearch.Text);
+        if(!string.IsNullOrEmpty(DescriptionSearch.Text)) filters.Add("Description", DescriptionSearch.Text);
+        LibraryViewModel.Filters = filters;
+        
+        UpdateView();
     }
     
     private void OnKeyUp(object? sender, KeyEventArgs e)
     {
         this._keyStates[e.Key] = false;
     }
-    private void OnKeyDown(object? sender, KeyEventArgs e)
+    private async void OnKeyDown(object? sender, KeyEventArgs e)
     {
         this._keyStates[e.Key] = true;
 
         this._keyStates.TryGetValue(Key.Enter, out bool Enter);
         this._keyStates.TryGetValue(Key.Escape, out bool Escape);
+        this._keyStates.TryGetValue(Key.S, out bool S);
+        this._keyStates.TryGetValue(Key.LeftCtrl, out bool LeftCtrl);
+        
         if (Enter)
         {
-            ApplyFilter();
+            Apply();
         }
 
         if (Escape)
         {
             GoBack();
         }
+        
+        if (LeftCtrl && S)
+        {
+            if (App.MainWindow.Path == "")
+            {
+                if (await App.MainWindow.GetPath())
+                {
+                    App.MainWindow.Save();
+                }
+            }
+        }
     }
-
+    
+    
     private void Create_OnClick(object? sender, RoutedEventArgs e)
     {
         this.CurrLib?.Collections.Add(new Collection());

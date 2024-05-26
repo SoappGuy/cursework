@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using cursework.Models;
 using cursework.ViewModels;
+using DynamicData;
 
 namespace cursework.Views;
 
@@ -19,9 +21,15 @@ public partial class CollectionView : UserControl
     public CollectionView()
     {
         InitializeComponent();   
+        
         this.KeyDown += OnKeyDown;
         this.KeyUp += OnKeyUp;
+        
         this.CurrCollection = new Collection();
+        
+        DateSearchStart.SelectedDate = new DateTimeOffset(new DateTime(1900, 1, 1));
+        DateSearchEnd  .SelectedDate = new DateTimeOffset(DateTime.Today);
+        // this.Classes.Add("Hidden");
     }
     
     private void ItemsGrid_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
@@ -50,44 +58,45 @@ public partial class CollectionView : UserControl
     {
         this._keyStates[e.Key] = false;
     }
-    private void OnKeyDown(object? sender, KeyEventArgs e)
+    private async void OnKeyDown(object? sender, KeyEventArgs e)
     {
         this._keyStates[e.Key] = true;
 
         this._keyStates.TryGetValue(Key.Enter, out bool Enter);
         this._keyStates.TryGetValue(Key.Escape, out bool Escape);
+        this._keyStates.TryGetValue(Key.S, out bool S);
+        this._keyStates.TryGetValue(Key.LeftCtrl, out bool LeftCtrl);
+
         if (Enter)
         {
-            // ApplyFilter();
+            Apply();
         }
 
         if (Escape)
         {
             GoBack();
         }
+        
+        if (LeftCtrl && S)
+        {
+            if (App.MainWindow.Path == "")
+            {
+                if (await App.MainWindow.GetPath())
+                {
+                    App.MainWindow.Save();
+                }
+            }
+        }
     }
     
-    private async void SaveButton_OnClick(object? sender, RoutedEventArgs e)
+    private void SaveButton_OnClick(object? sender, RoutedEventArgs e)
     {
-        
-        var dialog = new OpenFileDialog
-        {
-            Title = "Open File",
-            Filters = new List<FileDialogFilter>
-            {
-                new FileDialogFilter { Name = "Library files", Extensions = new List<string> { "library" } },
-            },
-            AllowMultiple = false,
-        };
-
-        var path = await dialog.ShowAsync(App.MainWindow);
-        
-        Library.Serialize(App.MainWindow.CurrLibView.CurrLib, path[0]);
+        App.MainWindow.SaveAs();    
     }
     
     private void UpdateView()
     {
-        Filters.Text = CollectionsViewModel.FiltersString;
+        // Filters.Text = CollectionsViewModel.FiltersString;
         ItemsGrid.ItemsSource = App.MainWindow.CurrCollectionView.CurrCollection?.Filtered(CollectionsViewModel.Filters);
     }
     private void GoBack()
@@ -116,29 +125,68 @@ public partial class CollectionView : UserControl
         UpdateView();
     }
 
-    private void ApplyFilter_OnClick(object? sender, RoutedEventArgs e)
+    private void Apply_OnClick(object? sender, RoutedEventArgs e)
     {
-        ApplyFilter();
+        Apply();
     }
     
-    private void ApplyFilter()
+    private void Apply()
     {
-        List<string> filters = [];
+        Dictionary<string, object> filters = [];
         
-        if(!string.IsNullOrEmpty(Universal.Text)) filters.Add(Universal.Text);
+        if(!string.IsNullOrEmpty(UniversalSearch.Text))   filters.Add("universal",   UniversalSearch.Text);
+        if(!string.IsNullOrEmpty(TitleSearch.Text))       filters.Add("Title",       TitleSearch.Text);
+        if(!string.IsNullOrEmpty(DescriptionSearch.Text)) filters.Add("Description", DescriptionSearch.Text);
+        if(!string.IsNullOrEmpty(StudioSearch.Text))      filters.Add("Studio",      StudioSearch.Text);
+        if(!string.IsNullOrEmpty(DirectorSearch.Text))    filters.Add("Director",    DirectorSearch.Text);
+        if(RateSearch.Value != null)                      filters.Add("Rate",        RateSearch.Value);
+        if (DateSearchStart.SelectedDate != null &&
+            DateSearchEnd.SelectedDate != null)
+        {
+            DateTimeOffset?[] dates = {DateSearchStart.SelectedDate, DateSearchEnd.SelectedDate};
+            filters.Add("ReleaseDate", dates);
+        }
+        CollectionsViewModel.Filters = filters;
         
-        CollectionsViewModel.Filters.AddRange(filters);
-        
-        Universal.Text = null;
         UpdateView();
     }
 
-    private void ClearFilter_OnClick(object? sender, RoutedEventArgs e)
+    private void Clear_OnClick(object? sender, RoutedEventArgs e)
     {
-        CollectionsViewModel.Filters.Clear();
-        CollectionsViewModel.Filters.Add("");
-        UpdateView();
-
-        Universal.Text = null;
+        Clear();
     }
+
+    private void Clear()
+    {
+        CollectionsViewModel.Filters = new Dictionary<string, object>() {{"universal", ""}};
+        UpdateView();
+    
+        UniversalSearch  .Text         = null;
+        TitleSearch      .Text         = null;
+        DescriptionSearch.Text         = null;
+        StudioSearch     .Text         = null;
+        DirectorSearch   .Text         = null;
+        RateSearch       .Value        = null;
+        DateSearchStart  .SelectedDate = new DateTimeOffset(new DateTime(1900, 1, 1));
+        DateSearchEnd    .SelectedDate = new DateTimeOffset(DateTime.Today);
+    }
+    
+    private void AccurateSearchButton_OnClick(object? sender, RoutedEventArgs e)
+    {
+        if (sender == null) return;
+        
+        var button = (ToggleButton)sender;
+        if (button.IsChecked ?? false)
+        {
+            AccurateGrid.IsVisible = true;
+            Search.Height = 200;
+        }
+        else
+        {
+            AccurateGrid.IsVisible = false;
+            Search.Height = 20;
+            Clear();
+        }
+    }
+
 }

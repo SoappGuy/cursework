@@ -41,24 +41,47 @@
             <Setter Property="Cursor" Value="Hand" />
         </Style>
         
-        <Style Selector="StackPanel.FilterButtonsPanel">
+        <Style Selector="WrapPanel.FilterButtonsPanel">
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
         
-        <Style Selector="StackPanel.FilterButtonsPanel Button">
-            <Setter Property="Margin" Value="5" />
+        <!-- <Style Selector="WrapPanel.FilterButtonsPanel Button"> -->
+        <!--     <Setter Property="HorizontalContentAlignment" Value="Center" /> -->
+        <!--     <Setter Property="VerticalContentAlignment" Value="Center" /> -->
+        <!--     <Setter Property="Margin" Value="7.5 0 7.5 0" /> -->
+        <!-- </Style> -->
+        
+        <Style Selector="WrapPanel.FilterButtonsPanel Button">
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Width" Value="75" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Margin" Value="7.5 0 7.5 0" />
+            <Setter Property="Width" Value="75" />
+            <Setter Property="Background" Value="#2B2E30" />
         </Style>
         
         <Style Selector="Grid.FilterGrid TextBox">
-            <Setter Property="Margin" Value="15 5 15 5" />
             <Setter Property="Height" Value="24" />
             <Setter Property="BorderBrush" Value="#3B398D" />
             <Setter Property="BorderThickness" Value="1" />
-            <!-- <Setter Property="" /> -->
+        </Style>
+        
+        <Style Selector="Grid.AccurateGrid">
+            <Setter Property="Margin" Value="15 0 15 0" />
+        </Style>
+        
+        <Style Selector="Grid.AccurateGrid NumericUpDown">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="BorderBrush" Value="#3B398D" />
+        </Style>
+        
+        <Style Selector="Grid.AccurateGrid DatePicker">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="BorderBrush" Value="#3B398D" />
+            <Setter Property="Margin" Value="15 0 0 0" />
         </Style>
         
         <Style Selector="Grid.FilterGrid TextBlock.Header">

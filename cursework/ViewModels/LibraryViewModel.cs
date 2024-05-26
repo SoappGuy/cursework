@@ -7,21 +7,8 @@ namespace cursework.ViewModels;
 
 public class LibraryViewModel : ViewModelBase
 {
-    public static List<string> Filters = [""];
-
-    public static string FiltersString
-    {
-        get
-        {
-            List<string> result = [];
-            foreach (var filter in Filters)
-            {
-                if (filter == "") continue;
-                result.Add($"[{filter}]");
-            }
-            return string.Join(", ", result);
-        }
-    }
+    public static Dictionary<string, object> Filters = new() {{"universal", ""}};
+    
     public static List<Collection> CurrView
     {
         get

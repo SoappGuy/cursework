@@ -37,7 +37,8 @@ public partial class HomeView : UserControl
         {
             App.MainWindow.CurrLibView = new LibraryView();
             App.MainWindow.CurrLibView.CurrLib = Library.Deserialize(result[0]).Unwrap();
-            
+
+            App.MainWindow.Path = result[0];
             App.MainWindow.MainContent.Content = App.MainWindow.CurrLibView;
         }
     }
