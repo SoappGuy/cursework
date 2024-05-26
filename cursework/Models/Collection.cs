@@ -51,6 +51,8 @@ public class Collection
                         return film.Title.Contains((string)value, StringComparison.Ordinal);
                     case "Description":
                         return film.Description.Contains((string)value, StringComparison.Ordinal);
+                    case "Genre":
+                        return film.Genres.Contains((Genre)value);
                     case "Studio":
                         return film.Studio.Contains((string)value, StringComparison.Ordinal);
                     case "Director":
@@ -61,9 +63,9 @@ public class Collection
                         start = ((DateTimeOffset?[])value)[0];
                         end = ((DateTimeOffset?[])value)[1];
 
-                        return start != null && film.ReleaseDate >= start || end != null && film.ReleaseDate <= end;
+                        return start != null && film.ReleaseDate >= start && end != null && film.ReleaseDate <= end;
                     case "Rate":
-                        return film.Rating == (double)value;
+                        return film.Rating == Decimal.ToDouble((Decimal)value);
                     default:
                         var term = (string)value;
                         foreach (var prop in typeof(Film).GetProperties())

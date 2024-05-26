@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("cursework")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3cc9746644becf5725f4477000a5a1ea0d51739e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e789a016a439bc755832f29ea1e8e601885a34bf")]
 [assembly: System.Reflection.AssemblyProductAttribute("cursework")]
 [assembly: System.Reflection.AssemblyTitleAttribute("cursework")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

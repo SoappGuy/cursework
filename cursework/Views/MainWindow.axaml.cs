@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -34,26 +35,26 @@ public partial class MainWindow : Window
         };
 
         var path = await dialog.ShowAsync(App.MainWindow);
-
+        
         if (path != null)
         {
             this.Path = path;
             return true;
         }
-
+        
         return false;
     }
     
     public void Save()
     {
-        Library.Serialize(this.CurrLibView.CurrLib, App.MainWindow.Path);
+        Library.Serialize(App.MainWindow.CurrLibView.CurrLib, App.MainWindow.Path);
     }
 
     public async void SaveAs()
     {
         if (await this.GetPath())
         {
-            Library.Serialize(this.CurrLibView.CurrLib, App.MainWindow.Path);
+            Library.Serialize(App.MainWindow.CurrLibView.CurrLib, App.MainWindow.Path);
         }
     }
 }

@@ -95,21 +95,40 @@
                         Margin="0 0 7.5 0"
                         Name="TitleSearch" Watermark="Title"  Classes="FiltersTextBlock"
                     />
-                    <NumericUpDown
-                        Increment="0.5" 
-                        FormatString="0.0"
-                        Minimum="0" Maximum="10"
-                        Margin="7.5 0 0 0"
+                    <Grid
                         Grid.Row="0"
                         Grid.Column="1"
-                        Name="RateSearch" Watermark="Rate"  Classes="FiltersTextBlock"
-                    />
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Margin="7.5 0 0 0"
+                        ColumnDefinitions="*,*"
+                    >
+                        <NumericUpDown
+                            Grid.Column="0"
+                            Increment="0.1" 
+                            FormatString="0.0"
+                            HorizontalAlignment="Stretch"
+                            Minimum="0" Maximum="10"
+                            Margin="0 0 7.5 0"
+                            Name="RateSearch" Watermark="Rate"  Classes="FiltersTextBlock"
+                        />
+                        <ComboBox
+                            Grid.Column="1"
+                            Margin="7.5 0 0 0"
+                            HorizontalAlignment="Stretch"
+                            Name="GenreSearch" Classes="FiltersTextBlock"
+                            ItemsSource="{Binding Genres}"
+                            PlaceholderText="Genre"
+                            PlaceholderForeground="#FF959696"
+                        />
+                    </Grid>
             
                     <TextBox 
                         Grid.Row="1"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Name="DescriptionSearch" Watermark="Description"  Classes="FiltersTextBlock"
+                        Margin="0 0 7.5 0"
+                        Name="DescriptionSearch" Watermark="Description" Classes="FiltersTextBlock"
                     />
             
                     <TextBox 
@@ -158,8 +177,8 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-            
-                <DataGrid 
+                
+                <DataGrid
                     Name="ItemsGrid"
                     Grid.Row="0"
                     Grid.Column="0"
@@ -172,11 +191,27 @@
                 >
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
-                        <DataGridTextColumn Header="Rate" Width="100" Binding="{Binding Rating}"/>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <NumericUpDown
+                                        Increment="0.1" 
+                                        FormatString="0.0"
+                                        Minimum="0" Maximum="10"
+                                        Margin="7.5 0 0 0"
+                                        Value="{Binding Rating}"
+                                        Name="RateSearch" Watermark="Rate"
+                                        Classes="Numeric"
+                                    />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTextColumn Header="Description" Width="3.5*" Binding="{Binding Description}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
+            
+            
     
         </StackPanel>
     </Canvas>

@@ -81,11 +81,10 @@ public partial class CollectionView : UserControl
         {
             if (App.MainWindow.Path == "")
             {
-                if (await App.MainWindow.GetPath())
-                {
-                    App.MainWindow.Save();
-                }
+                await App.MainWindow.GetPath();
             }
+            
+            App.MainWindow.Save();
         }
     }
     
@@ -139,6 +138,7 @@ public partial class CollectionView : UserControl
         if(!string.IsNullOrEmpty(DescriptionSearch.Text)) filters.Add("Description", DescriptionSearch.Text);
         if(!string.IsNullOrEmpty(StudioSearch.Text))      filters.Add("Studio",      StudioSearch.Text);
         if(!string.IsNullOrEmpty(DirectorSearch.Text))    filters.Add("Director",    DirectorSearch.Text);
+        if(GenreSearch.SelectedItem != null)              filters.Add("Genre",       GenreSearch.SelectedItem);
         if(RateSearch.Value != null)                      filters.Add("Rate",        RateSearch.Value);
         if (DateSearchStart.SelectedDate != null &&
             DateSearchEnd.SelectedDate != null)
@@ -164,6 +164,7 @@ public partial class CollectionView : UserControl
         UniversalSearch  .Text         = null;
         TitleSearch      .Text         = null;
         DescriptionSearch.Text         = null;
+        GenreSearch      .SelectedItem = null;
         StudioSearch     .Text         = null;
         DirectorSearch   .Text         = null;
         RateSearch       .Value        = null;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
@@ -135,11 +136,10 @@ public partial class LibraryView : UserControl
         {
             if (App.MainWindow.Path == "")
             {
-                if (await App.MainWindow.GetPath())
-                {
-                    App.MainWindow.Save();
-                }
+                await App.MainWindow.GetPath();
             }
+            
+            App.MainWindow.Save();
         }
     }
     
