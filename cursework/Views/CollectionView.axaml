@@ -3,6 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:cursework.ViewModels"
+             xmlns:pgc="clr-namespace:Avalonia.PropertyGrid.Controls;assembly=Avalonia.PropertyGrid"
+             xmlns:vlc="clr-namespace:LibVLCSharp.Avalonia;assembly=LibVLCSharp.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="cursework.Views.CollectionView"
              x:DataType="vm:CollectionsViewModel">
@@ -73,7 +75,7 @@
                         IsVisible="False"
                         Classes="FilterButtonsPanel" 
                     >
-                        <Button Content="Open" Click="Open_OnClick" />
+                        <Button Content="Load" Click="Open_OnClick" />
                         <Button Content="Delete" Click="Delete_OnClick" />
                     </WrapPanel>
                 </WrapPanel>
@@ -83,136 +85,164 @@
                     Grid.Row="1"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    ColumnDefinitions="*,*,*"
-                    RowDefinitions="50,50,50,50"
+                    ColumnDefinitions="*,0.75*,1.25*"
                     Name="AccurateGrid" Classes="AccurateGrid"
                     IsVisible="False"
                 >
-
-                    <TextBox 
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Margin="0 0 7.5 0"
-                        Name="TitleSearch" Watermark="Title"  Classes="FiltersTextBlock"
-                    />
                     <Grid
                         Grid.Row="0"
-                        Grid.Column="1"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Center"
-                        Margin="7.5 0 0 0"
+                        Grid.Column="0"
                         ColumnDefinitions="*,*"
+                        RowDefinitions="50,50,50"
+                        Margin="0 0 7.5 0"
+                    >
+                        <TextBox 
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Name="TitleSearch" Watermark="Title"  Classes="FiltersTextBlock"
+                        />
+                        
+                        <TextBox 
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Name="DescriptionSearch" Watermark="Description" Classes="FiltersTextBlock"
+                        />
+                        
+                        <TextBox 
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Margin="0 0 7.5 0"
+                            Name="StudioSearch" Watermark="Studio"  Classes="FiltersTextBlock"
+                        />
+                        <TextBox 
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Margin="7.5 0 0 0"
+                            Name="DirectorSearch" Watermark="Director"  Classes="FiltersTextBlock"
+                        />
+                    </Grid>
+                    
+                    <ListBox
+                        Grid.Column="1"
+                        Grid.RowSpan="3"
+                        Height="130"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        Margin="7.5 10"
+                        Name="GenreSearch" Classes="FiltersTextBlock"
+                        ItemsSource="{Binding Genres}"
+                        SelectionMode="Multiple, Toggle"
+                    />
+                    
+                    <Grid
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Margin="7.5 0 0 0"
+                        ColumnDefinitions="0.3*,0.7*"
+                        RowDefinitions="50,50,50"
                     >
                         <NumericUpDown
                             Grid.Column="0"
+                            Grid.Row="0"
                             Increment="0.1" 
                             FormatString="0.0"
+                            Value="0"
                             HorizontalAlignment="Stretch"
                             Minimum="0" Maximum="10"
                             Margin="0 0 7.5 0"
-                            Name="RateSearch" Watermark="Rate"  Classes="FiltersTextBlock"
+                            Name="RateSearchStart" Watermark="Rate"  Classes="FiltersTextBlock"
                         />
-                        <ComboBox
-                            Grid.Column="1"
-                            Margin="7.5 0 0 0"
+                        <NumericUpDown
+                            Grid.Column="0"
+                            Grid.Row="2"
+                            Increment="0.1" 
+                            FormatString="0.0"
+                            Value="10"
                             HorizontalAlignment="Stretch"
-                            Name="GenreSearch" Classes="FiltersTextBlock"
-                            ItemsSource="{Binding Genres}"
-                            PlaceholderText="Genre"
-                            PlaceholderForeground="#FF959696"
+                            Minimum="0" Maximum="10"
+                            Margin="0 0 7.5 0"
+                            Name="RateSearchEnd" Watermark="Rate"  Classes="FiltersTextBlock"
+                        />
+                        
+                        <TextBlock
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Grid.Row="1" 
+                            Foreground="#249E4B"
+                            FontSize="20"
+                            TextAlignment="Center"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                        >󱞽 Range Start | Range End 󱞣</TextBlock>
+                        
+                        <DatePicker
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            DayFormat="dd"
+                            Name="DateSearchStart"  Classes="FiltersTextBlock"
+                        />
+                        <DatePicker
+                            Grid.Column="1"
+                            Grid.Row="2"
+                            DayFormat="dd"
+                            Name="DateSearchEnd"  Classes="FiltersTextBlock"
                         />
                     </Grid>
-            
-                    <TextBox 
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Margin="0 0 7.5 0"
-                        Name="DescriptionSearch" Watermark="Description" Classes="FiltersTextBlock"
-                    />
-            
-                    <TextBox 
-                        Grid.Row="2"
-                        Grid.Column="0"
-                        Margin="0 0 7.5 0"
-                        Name="StudioSearch" Watermark="Studio"  Classes="FiltersTextBlock"
-                    />
-                    <TextBox 
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        Margin="7.5 0 0 0"
-                        Name="DirectorSearch" Watermark="Director"  Classes="FiltersTextBlock"
-                    />
-            
-                    <DatePicker
-                        DayFormat="dd"
-                        Grid.Row="0"
-                        Grid.Column="2"
-                        Name="DateSearchStart"  Classes="FiltersTextBlock"
-                    />
-                    <TextBlock 
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        Foreground="#249E4B"
-                        Text="󱞽 Start | End 󱞣"
-                        FontSize="20"
-                        TextAlignment="Center"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                    />
-                    <DatePicker
-                          DayFormat="dd"
-                          Grid.Row="2"
-                          Grid.Column="2"
-                          Name="DateSearchEnd"  Classes="FiltersTextBlock"
-                      />
                 </Grid>
             
             </Grid>
             
-            <Grid Name="ItemsBrowser">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="400"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                
-                <DataGrid
-                    Name="ItemsGrid"
-                    Grid.Row="0"
+            <Grid 
+                Name="ItemsBrowser"
+                RowDefinitions="500"
+                ColumnDefinitions="150,*,Auto"
+            >
+                <ListBox
+                    Classes="FilmsList"
                     Grid.Column="0"
-                    ItemsSource="{Binding CurrView}"
-                    AutoGenerateColumns="False"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    Name="FilmSelector"
+                    SelectionMode="Single, AlwaysSelected"
                     FontSize="24"
-                    Margin="15 0 15 15"
-                    SelectionChanged="ItemsGrid_OnSelectionChanged"
-                    VerticalScrollBarVisibility="Visible"
+                    Width="150"
+                    Height="380"
+                    ItemsSource="{Binding CurrView}"
+                    SelectionChanged="FilmsList_OnSelectionChanged"    
+                />
+                
+                <ScrollViewer
+                    Classes="PropertyGrid"
+                    Grid.Column="1"
                 >
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
-                        <DataGridTemplateColumn>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <NumericUpDown
-                                        Increment="0.1" 
-                                        FormatString="0.0"
-                                        Minimum="0" Maximum="10"
-                                        Margin="7.5 0 0 0"
-                                        Value="{Binding Rating}"
-                                        Name="RateSearch" Watermark="Rate"
-                                        Classes="Numeric"
-                                    />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Description" Width="3.5*" Binding="{Binding Description}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                    <pgc:PropertyGrid
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        x:Name="ItemsGrid"
+                        DataContext="{Binding SelectedFilm}"
+                    />    
+                </ScrollViewer>
+                
+                <Grid
+                    Grid.Column="2" 
+                    Classes="Player"
+                    RowDefinitions="350,30"
+                >
+                    <Border Grid.Row="0" Grid.ColumnSpan="3" BorderBrush="#3B398D" BorderThickness="1">
+                        <vlc:VideoView 
+                            MediaPlayer="{Binding player}"
+                        />
+                    </Border>    
+                    <WrapPanel Grid.Row="1">
+                        <Button HorizontalAlignment="Left" Click="PlayToggle_OnClick">󰐎</Button>
+                        <Button HorizontalAlignment="Left" Click="MuteToggle_OnClick"></Button>
+                    </WrapPanel>
+                    </Grid>
             </Grid>
-            
-            
-    
         </StackPanel>
     </Canvas>
     

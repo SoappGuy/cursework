@@ -1,30 +1,51 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using PropertyModels.Collections;
+using PropertyModels.ComponentModel;
+using PropertyModels.ComponentModel.DataAnnotations;
 
 namespace cursework.Models;
 
 public class Film
 {
-    public string Title { get; set; } = "";          //
-    public string Description { get; set; } = "";    //
-    public string Studio { get; set; } = "";         //
-    public DateTime ReleaseDate { get; set; }        //
-    public string Director { get; set; } = "";       //
-    public List<string> Actors { get; set; } = [];
-    public List<Genre> Genres { get; set; } = [];
+    [DisplayName("Title")]
+    [Watermark("Title")]
+    public string Title { get; set; } = "";          
+    
+    [DisplayName("Description")]
+    [Watermark("Description")]
+    public string Description { get; set; } = "";
+    
+    [DisplayName("Studio")]
+    [Watermark("Studio")]
+    public string Studio { get; set; } = "";
+
+    [DisplayName("Release Date")]
+    [Watermark("Release Date")]
+    public DateTime ReleaseDate { get; set; } = DateTime.UnixEpoch;     
+    
+    [DisplayName("Director")]
+    [Watermark("Director")]
+    public string Director { get; set; } = "";       
+    public BindingList<string> Actors { get; set; } = [];
+    public BindingList<Genre> Genres { get; set; } = [];
+    
+    [DisplayName("File Path")]
+    [Watermark("File Path")]
+    [PathBrowsable(Filters = "Video Files(*.mp4;*.mkv)|*.mp4;*.mkv")]
     public string FilePath { get; set; } = "";
-    public string FileSize { get; set; } = "";
-    public string Length { get; set; } = "";
     
     private double _rating = 0;
-    public double Rating                             //
+    [DisplayName("Rating")]
+    [Watermark("Rating")]
+    public double Rating                             
     {
         get => _rating;
         set => _rating = value <= 10 ? value : 10;
     }
-
-
+    
     public override string? ToString()
     {
         return this.Title;
@@ -44,8 +65,6 @@ public class Film
         bool director    = this.Director == film.Director;
         bool rating      = this.Rating == film.Rating;
         bool path        = this.FilePath == film.FilePath;
-        bool size = this.FileSize == film.FileSize;
-        bool lenght = this.Length == film.Length;
         bool actors = film.Actors != null && this.Actors != null
                 ? this.Actors.Equals(film.Actors)
                 : this.Actors == film.Actors
@@ -54,7 +73,7 @@ public class Film
             ? this.Genres.Equals(film.Genres)
             : this.Genres == film.Genres;
 
-        List<bool> list = [title, description, studio, release, director, rating, path, size, lenght, actors, geners];
+        List<bool> list = [title, description, studio, release, director, rating, path, actors, geners];
         return list.All(n => n);
     }
     public override int GetHashCode()
@@ -81,8 +100,6 @@ public class Film
         }
         hash.Add(this.Rating);
         hash.Add(this.FilePath);
-        hash.Add(this.FileSize);
-        hash.Add(this.Length);
         return hash.ToHashCode();
     }
 }

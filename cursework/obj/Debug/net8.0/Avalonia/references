@@ -15,6 +15,7 @@
 /home/dumbnerd/.nuget/packages/avalonia/11.0.10/ref/net6.0/Avalonia.MicroCom.dll
 /home/dumbnerd/.nuget/packages/avalonia.native/11.0.10/lib/net6.0/Avalonia.Native.dll
 /home/dumbnerd/.nuget/packages/avalonia/11.0.10/ref/net6.0/Avalonia.OpenGL.dll
+/home/dumbnerd/.nuget/packages/bodong.avalonia.propertygrid/11.0.6.3/lib/net6.0/Avalonia.PropertyGrid.dll
 /home/dumbnerd/.nuget/packages/avalonia.reactiveui/11.0.10/lib/net6.0/Avalonia.ReactiveUI.dll
 /home/dumbnerd/.nuget/packages/avalonia.remote.protocol/11.0.10/lib/net6.0/Avalonia.Remote.Protocol.dll
 /home/dumbnerd/.nuget/packages/avalonia.skia/11.0.10/lib/net6.0/Avalonia.Skia.dll
@@ -22,9 +23,16 @@
 /home/dumbnerd/.nuget/packages/avalonia.themes.simple/11.0.10/lib/net6.0/Avalonia.Themes.Simple.dll
 /home/dumbnerd/.nuget/packages/avalonia.win32/11.0.10/lib/net6.0/Avalonia.Win32.dll
 /home/dumbnerd/.nuget/packages/avalonia.x11/11.0.10/lib/net6.0/Avalonia.X11.dll
+/home/dumbnerd/.nuget/packages/configureawait.fody/3.3.2/lib/netstandard2.1/ConfigureAwait.dll
 /home/dumbnerd/.nuget/packages/dynamicdata/7.9.5/lib/net6.0/DynamicData.dll
 /home/dumbnerd/.nuget/packages/fuzzysharp/2.0.2/lib/netcoreapp2.1/FuzzySharp.dll
+/home/dumbnerd/.nuget/packages/hanumaninstitute.libmpv.avalonia/0.9.1/lib/netstandard2.0/HanumanInstitute.LibMpv.Avalonia.dll
+/home/dumbnerd/.nuget/packages/hanumaninstitute.libmpv/0.9.1/lib/netstandard2.0/HanumanInstitute.LibMpv.dll
+/home/dumbnerd/.nuget/packages/hanumaninstitute.validators/1.2.2/lib/netstandard2.0/HanumanInstitute.Validators.dll
 /home/dumbnerd/.nuget/packages/harfbuzzsharp/7.3.0/lib/net6.0/HarfBuzzSharp.dll
+/home/dumbnerd/.nuget/packages/jetbrains.annotations/2022.3.1/lib/netstandard2.0/JetBrains.Annotations.dll
+/home/dumbnerd/.nuget/packages/libvlcsharp.avalonia/3.8.5/lib/netstandard2.0/LibVLCSharp.Avalonia.dll
+/home/dumbnerd/.nuget/packages/libvlcsharp/3.8.5/lib/net6.0/LibVLCSharp.dll
 /home/dumbnerd/.nuget/packages/microcom.runtime/0.11.0/lib/net5.0/MicroCom.Runtime.dll
 /home/dumbnerd/.nuget/packages/microsoft.codeanalysis.csharp/3.8.0/lib/netcoreapp3.1/Microsoft.CodeAnalysis.CSharp.dll
 /home/dumbnerd/.nuget/packages/microsoft.codeanalysis.csharp.scripting/3.8.0/lib/netcoreapp3.1/Microsoft.CodeAnalysis.CSharp.Scripting.dll
@@ -37,6 +45,7 @@
 /usr/share/dotnet/packs/Microsoft.NETCore.App.Ref/8.0.5/ref/net8.0/Microsoft.Win32.Registry.dll
 /usr/share/dotnet/packs/Microsoft.NETCore.App.Ref/8.0.5/ref/net8.0/mscorlib.dll
 /usr/share/dotnet/packs/Microsoft.NETCore.App.Ref/8.0.5/ref/net8.0/netstandard.dll
+/home/dumbnerd/.nuget/packages/bodong.propertymodels/11.0.6.2/lib/net6.0/PropertyModels.dll
 /home/dumbnerd/.nuget/packages/reactiveui/18.3.1/lib/net6.0/ReactiveUI.dll
 /home/dumbnerd/.nuget/packages/skiasharp/2.88.7/lib/net6.0/SkiaSharp.dll
 /home/dumbnerd/.nuget/packages/splat/14.4.1/lib/net6.0/Splat.dll
@@ -121,7 +130,7 @@
 /usr/share/dotnet/packs/Microsoft.NETCore.App.Ref/8.0.5/ref/net8.0/System.Numerics.dll
 /usr/share/dotnet/packs/Microsoft.NETCore.App.Ref/8.0.5/ref/net8.0/System.Numerics.Vectors.dll
 /usr/share/dotnet/packs/Microsoft.NETCore.App.Ref/8.0.5/ref/net8.0/System.ObjectModel.dll
-/home/dumbnerd/.nuget/packages/system.reactive/5.0.0/lib/net5.0/System.Reactive.dll
+/home/dumbnerd/.nuget/packages/system.reactive/6.0.0/lib/net6.0/System.Reactive.dll
 /usr/share/dotnet/packs/Microsoft.NETCore.App.Ref/8.0.5/ref/net8.0/System.Reflection.DispatchProxy.dll
 /usr/share/dotnet/packs/Microsoft.NETCore.App.Ref/8.0.5/ref/net8.0/System.Reflection.dll
 /usr/share/dotnet/packs/Microsoft.NETCore.App.Ref/8.0.5/ref/net8.0/System.Reflection.Emit.dll

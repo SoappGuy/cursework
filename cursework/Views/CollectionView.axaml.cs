@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using cursework.Models;
 using cursework.ViewModels;
-using DynamicData;
+using LibVLCSharp.Shared;
 
 namespace cursework.Views;
 
@@ -29,10 +27,9 @@ public partial class CollectionView : UserControl
         
         DateSearchStart.SelectedDate = new DateTimeOffset(new DateTime(1900, 1, 1));
         DateSearchEnd  .SelectedDate = new DateTimeOffset(DateTime.Today);
-        // this.Classes.Add("Hidden");
     }
     
-    private void ItemsGrid_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    private void FilmsList_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
         
         SelectedButtons.IsVisible = true;
@@ -43,7 +40,7 @@ public partial class CollectionView : UserControl
             return;
         }
         
-        var selected = ((Film)((DataGrid)sender).SelectedItem);
+        var selected = ((Film)((ListBox)sender).SelectedItem);
 
         if (selected == null)
         {
@@ -52,6 +49,8 @@ public partial class CollectionView : UserControl
         }
 
         this.SelectedFilm = selected;
+        CollectionsViewModel.SelectedFilm = selected;
+        ItemsGrid.DataContext = CollectionsViewModel.SelectedFilm;
     }
     
     private void OnKeyUp(object? sender, KeyEventArgs e)
@@ -96,7 +95,13 @@ public partial class CollectionView : UserControl
     private void UpdateView()
     {
         // Filters.Text = CollectionsViewModel.FiltersString;
-        ItemsGrid.ItemsSource = App.MainWindow.CurrCollectionView.CurrCollection?.Filtered(CollectionsViewModel.Filters);
+        
+        FilmSelector.ItemsSource = App.MainWindow.CurrCollectionView.CurrCollection?.Filtered(CollectionsViewModel.Filters);
+        
+        if (SelectedFilm == null) return;
+        ItemsGrid.DataContext = SelectedFilm;
+        
+        
     }
     private void GoBack()
     {
@@ -111,12 +116,10 @@ public partial class CollectionView : UserControl
 
     private void Open_OnClick(object? sender, RoutedEventArgs e)
     {
-        throw new NotImplementedException();
-        // if(this.SelectedCollection == null) return;
-        //
-        // App.MainWindow.CurrCollectionView = new CollectionView();
-        // App.MainWindow.CurrCollectionView.CurrCollection = this.SelectedCollection;
-        // App.MainWindow.MainContent.Content = App.MainWindow.CurrCollectionView;
+        if (string.IsNullOrEmpty(SelectedFilm?.FilePath)) return;
+        
+        using var media = new Media(CollectionsViewModel.libvlc, SelectedFilm.FilePath);
+        CollectionsViewModel.player.Play(media);
     }
     private void Delete_OnClick(object? sender, RoutedEventArgs e)
     {
@@ -139,7 +142,12 @@ public partial class CollectionView : UserControl
         if(!string.IsNullOrEmpty(StudioSearch.Text))      filters.Add("Studio",      StudioSearch.Text);
         if(!string.IsNullOrEmpty(DirectorSearch.Text))    filters.Add("Director",    DirectorSearch.Text);
         if(GenreSearch.SelectedItem != null)              filters.Add("Genre",       GenreSearch.SelectedItem);
-        if(RateSearch.Value != null)                      filters.Add("Rate",        RateSearch.Value);
+        if (RateSearchStart.Value != null &&
+            RateSearchEnd.Value != null)
+        {
+            double?[] rates = {decimal.ToDouble((decimal)RateSearchStart.Value), decimal.ToDouble((decimal)RateSearchEnd.Value) };
+            filters.Add("Rate", rates);
+        }
         if (DateSearchStart.SelectedDate != null &&
             DateSearchEnd.SelectedDate != null)
         {
@@ -167,7 +175,8 @@ public partial class CollectionView : UserControl
         GenreSearch      .SelectedItem = null;
         StudioSearch     .Text         = null;
         DirectorSearch   .Text         = null;
-        RateSearch       .Value        = null;
+        RateSearchStart  .Value        = null;
+        RateSearchEnd    .Value        = null;
         DateSearchStart  .SelectedDate = new DateTimeOffset(new DateTime(1900, 1, 1));
         DateSearchEnd    .SelectedDate = new DateTimeOffset(DateTime.Today);
     }
@@ -190,4 +199,13 @@ public partial class CollectionView : UserControl
         }
     }
 
+    private void PlayToggle_OnClick(object? sender, RoutedEventArgs e)
+    {
+        CollectionsViewModel.player.Pause();
+    }
+
+    private void MuteToggle_OnClick(object? sender, RoutedEventArgs e)
+    {
+        CollectionsViewModel.player.Mute = !CollectionsViewModel.player.Mute;
+    }
 }

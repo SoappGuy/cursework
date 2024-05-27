@@ -2,6 +2,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="cursework.App"
              xmlns:local="using:cursework"
+             xmlns:controls="clr-namespace:Avalonia.PropertyGrid.Controls;assembly=Avalonia.PropertyGrid"
+             xmlns:vlc="clr-namespace:LibVLCSharp.Avalonia;assembly=LibVLCSharp.Avalonia"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
@@ -104,12 +106,66 @@
             <Setter Property="Background" Value="#262626" />
         </Style>
         
-        <Style Selector="ComboBox.FiltersTextBlock">
+        <Style Selector="ListBox.FiltersTextBlock">
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderBrush" Value="#3B398D" />
             <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="3" />
         </Style>
+        
+        <Style Selector="ListBox.FiltersTextBlock ListBoxItem">
+            <Setter Property="BorderBrush" Value="#0C64AF" />
+            <Setter Property="BorderThickness" Value="0 1" />
+        </Style>
+        
+        <Style Selector="Grid#splitterGrid">
+            <Setter Property="Height" Value="0" />
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="controls|CheckedMask#fastFilterBox">
+            <Setter Property="Height" Value="0" />
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="Grid#headerGrid">
+            <Setter Property="Height" Value="0" />
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        
+        <Style Selector="ListBox.FilmsList">
+            <Setter Property="Padding" Value="3 0" />
+            <Setter Property="Margin" Value="15 0 7.5 0" />
+            <Setter Property="BorderBrush" Value="#3B398D" />
+            <Setter Property="BorderThickness" Value="2 0 0 0 " />
+        </Style>
+        
+        <Style Selector="ScrollViewer.PropertyGrid">
+            <Setter Property="Height" Value="380" />
+            <Setter Property="Width" Value="350" />
+            <Setter Property="Margin" Value="0 0 15 0" />
+            <Setter Property="BorderBrush" Value="#3B398D" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+        </Style>
+        <Style Selector="controls|PropertyGrid">
+            <Setter Property="Width" Value="350" />
+        </Style>
+        
+        <Style Selector="vlc|VideoView">
+            <Setter Property="Width" Value="650" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+        
+        <Style Selector="Grid.Player">
+            <Setter Property="Width" Value="650" />
+            <Setter Property="Height" Value="380" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+
     </Application.Styles>
     
      <Application.Resources>
