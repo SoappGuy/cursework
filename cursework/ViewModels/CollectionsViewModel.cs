@@ -24,6 +24,4 @@ public class CollectionsViewModel
     
     public static LibVLC libvlc = new LibVLC();
     public static MediaPlayer player { get; set; } = new MediaPlayer(libvlc);
-
-
 }

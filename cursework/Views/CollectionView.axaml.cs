@@ -100,8 +100,6 @@ public partial class CollectionView : UserControl
         
         if (SelectedFilm == null) return;
         ItemsGrid.DataContext = SelectedFilm;
-        
-        
     }
     private void GoBack()
     {
