@@ -2,18 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using FuzzySharp;
 
 namespace cursework.Models;
 
 public class Library
 {
     public List<Collection> Collections { get; set; } = [];
-    
+
     public List<Collection> Filtered(Dictionary<string, object> searchTerms)
     {
         var filtered = this.Collections;
@@ -25,9 +23,9 @@ public class Library
                 switch (prop)
                 {
                     case "Title":
-                        return collection.Title.Contains((string)value, StringComparison.Ordinal);
+                        return collection.Title.Contains((string)value, StringComparison.OrdinalIgnoreCase);
                     case "Description":
-                        return collection.Description.Contains((string)value, StringComparison.Ordinal);
+                        return collection.Description.Contains((string)value, StringComparison.OrdinalIgnoreCase);
                     default:
                         var term = (string)value;
                         foreach (var prop in typeof(Collection).GetProperties())
@@ -37,6 +35,7 @@ public class Library
                                 return true;
                             }
                         }
+                        
                         return false;
                 }
             }).ToList();

@@ -23,9 +23,6 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [/home/dumbnerd/stuff/projects/cursework/cursework/Views/CollectionView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[/home/dumbnerd/stuff/projects/cursework/cursework/Views/FilmView.axaml]
-build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
-
 [/home/dumbnerd/stuff/projects/cursework/cursework/Views/HomeView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 

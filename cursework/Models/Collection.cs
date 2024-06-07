@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -48,23 +49,22 @@ public class Collection
                 switch (prop)
                 {
                     case "Title":
-                        return film.Title.Contains((string)value, StringComparison.Ordinal);
+                        return film.Title.Contains((string)value, StringComparison.OrdinalIgnoreCase);
                     case "Description":
-                        return film.Description.Contains((string)value, StringComparison.Ordinal);
-                    case "Genre":
-                        return film.Genres.Contains((Genre)value);
+                        return film.Description.Contains((string)value, StringComparison.OrdinalIgnoreCase);
+                    case "Genres":
+                        var genres = (List<object>)value;
+                        return  genres.All(genre => film.Genres.Contains((Genre)genre));
                     case "Studio":
-                        return film.Studio.Contains((string)value, StringComparison.Ordinal);
+                        return film.Studio.Contains((string)value, StringComparison.OrdinalIgnoreCase);
                     case "Director":
-                        return film.Director.Contains((string)value, StringComparison.Ordinal);
+                        return film.Director.Contains((string)value, StringComparison.OrdinalIgnoreCase);
                     case "ReleaseDate":
 
-                        var startDate = ((DateTimeOffset?[])value)[0];
-                        var endDate = ((DateTimeOffset?[])value)[1];
+                        var startDate = ((DateTimeOffset?[])value)[0] ?? new DateTimeOffset(new DateTime(1900, 1, 1));
+                        var endDate = ((DateTimeOffset?[])value)[1] ?? new DateTimeOffset(DateTime.Today);
 
-                        return startDate != null 
-                               && film.ReleaseDate >= startDate 
-                               && endDate != null 
+                        return film.ReleaseDate >= startDate 
                                && film.ReleaseDate <= endDate;
                     
                     case "Rate":
@@ -76,15 +76,27 @@ public class Collection
                             endRate = 10;
                         }
                         
-                        return film.Rating >= startRate  && film.Rating <= endRate;
+                        return film.Rating >= startRate && film.Rating <= endRate;
                     default:
                         var term = (string)value;
                         foreach (var prop in typeof(Film).GetProperties())
                         {
-                            if (prop.GetValue(film)?.ToString()?.Contains(term, StringComparison.OrdinalIgnoreCase) ?? false)
+                            switch (prop.Name.ToString())
                             {
-                                return true;
+                                case "Actors":
+                                    if (((BindingList<string>?)prop.GetValue(film))?.Any(actor => actor.ToString().Contains(term, StringComparison.OrdinalIgnoreCase)) ?? false)
+                                    {
+                                        return true;
+                                    }
+                                    break;
+                                default:
+                                    if (prop.GetValue(film)?.ToString()?.Contains(term, StringComparison.OrdinalIgnoreCase) ?? false)
+                                    {
+                                        return true;
+                                    }
+                                    break;
                             }
+                            
                         }
                         return false;
                 }
@@ -110,7 +122,7 @@ public class Collection
 
                     foreach (var word in words)
                     {
-                        if (word.Contains(term, StringComparison.Ordinal))
+                        if (word.Contains(term, StringComparison.OrdinalIgnoreCase))
                         {
                             return true;
                         }

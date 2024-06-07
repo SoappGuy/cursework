@@ -14,7 +14,7 @@
     >
         <Button 
             Classes="AddButton"
-            Canvas.Bottom="25" Canvas.Right="25"
+            Canvas.Bottom="2" Canvas.Right="15"
             Click="Create_OnClick"
         >
                 <Image Source="/Assets/plus.png"/>
@@ -68,6 +68,7 @@
                     >
                         <Button Content="Apply" Click="Apply_OnClick" />
                         <Button Content="Clear" Click="Clear_OnClick" />
+                        <Button Content="Print" Click="Print_OnClick" />
                     </WrapPanel>
                     
                     <WrapPanel 
@@ -150,7 +151,6 @@
                             Grid.Row="0"
                             Increment="0.1" 
                             FormatString="0.0"
-                            Value="0"
                             HorizontalAlignment="Stretch"
                             Minimum="0" Maximum="10"
                             Margin="0 0 7.5 0"
@@ -161,7 +161,6 @@
                             Grid.Row="2"
                             Increment="0.1" 
                             FormatString="0.0"
-                            Value="10"
                             HorizontalAlignment="Stretch"
                             Minimum="0" Maximum="10"
                             Margin="0 0 7.5 0"

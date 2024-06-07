@@ -67,7 +67,7 @@ public partial class LibraryView : UserControl
     }
     private void Clear()
     {
-        CollectionsViewModel.Filters = new Dictionary<string, object>() {{"universal", ""}};
+        LibraryViewModel.Filters = new Dictionary<string, object>() {{"universal", ""}};
         UpdateView();
     
         UniversalSearch  .Text         = null;

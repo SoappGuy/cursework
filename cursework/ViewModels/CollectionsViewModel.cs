@@ -15,7 +15,7 @@ public class CollectionsViewModel
     {
         get
         {
-            return App.MainWindow.CurrCollectionView.CurrCollection?.Filtered(Filters);
+            return App.MainWindow.CurrCollectionView.CurrCollection.Filtered(Filters);
         }
     }
 

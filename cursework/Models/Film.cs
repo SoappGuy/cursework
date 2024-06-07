@@ -12,7 +12,7 @@ public class Film
 {
     [DisplayName("Title")]
     [Watermark("Title")]
-    public string Title { get; set; } = "";          
+    public string Title { get; set; } = "Title";          
     
     [DisplayName("Description")]
     [Watermark("Description")]
@@ -29,7 +29,13 @@ public class Film
     [DisplayName("Director")]
     [Watermark("Director")]
     public string Director { get; set; } = "";       
+    
+    [DisplayName("Actors")]
+    [Watermark("Actors")]
     public BindingList<string> Actors { get; set; } = [];
+    
+    [DisplayName("Genres")]
+    [Watermark("Genres")]
     public BindingList<Genre> Genres { get; set; } = [];
     
     [DisplayName("File Path")]
